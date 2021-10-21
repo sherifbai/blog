@@ -10,7 +10,6 @@ exports.register = async (req, res) => {
 
         const existingUser = await User.findOne({ username: username });
 
-        console.log(existingUser);
 
         if (existingUser) {
             return res.status(500).json({

@@ -67,7 +67,7 @@ exports.getMessage = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const message = await Message.findOne({ id: id });
+        const message = await Message.findOne({ _id: id });
 
         if (!message) {
             return res.status(404).json({
@@ -95,7 +95,7 @@ exports.updateMessage = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const message = await Message.findOne({ id: id });
+        const message = await Message.findOne({ _id: id });
 
         if (!message) {
             return res.status(404).json({
@@ -138,7 +138,7 @@ exports.deleteMessage = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const message = await Message.findOne({ id: id });
+        const message = await Message.findOne({ _id: id });
 
         if (!message) {
             return res.status(404).json({
@@ -148,7 +148,7 @@ exports.deleteMessage = async (req, res) => {
             });
         }
 
-        await Message.findByIdAndDelete(id);
+        await Message.findByIdAndDelete({ _id: id });
 
         return res.status(200).json({
             'data': null,

@@ -1,10 +1,30 @@
 const express = require('express');
 const multer = require('multer');
 
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+
 const authRoute = require('./routes/auth');
 const messageRoute = require('./routes/message');
 
 require('dotenv').config();
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Blog API',
+            version: '1.0.0',
+            description: 'Simple blog API'
+        },
+        servers: [{
+            url: 'http://localhost:3000'
+        }]
+    },
+    apis: ['./routes/*.js']
+}
+
+const specs = swaggerJsDoc(swaggerOptions);
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -26,6 +46,8 @@ const fileFilter = (req, file, cb) => {
 const app = express();
 
 require('./connections/database.connection');
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(express.json());
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
