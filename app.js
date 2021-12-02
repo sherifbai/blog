@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const fs = require('fs');
 
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -57,5 +58,6 @@ app.use('/api/auth', authRoute);
 app.use('/api/message', messageRoute);
 
 const port = process.env.PORT || 3000;
+fs.writeFileSync('./swagger.json', JSON.stringify(specs));
 
 app.listen({port});
